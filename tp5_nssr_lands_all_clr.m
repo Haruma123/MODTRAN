@@ -1,34 +1,35 @@
+% åˆ›å»ºæ™´å¤©æ¡ä»¶ä¸‹çš„tp5
 clear all;
 clc;
 
-MODEL=[1,2,3,4,5,6]; %MODTRANÌá¹©µÄÁùÖÖ´óÆøÀªÏß
-% IHAZE=[1,4,5,6]; %¶¨ÒåËÄÖÖÆøÈÜ½ºÏû¹âÄ£Ê½£ºÏç´å¡¢º£Ñó¡¢³ÇÊĞ¡¢¶ÔÁ÷²ã
-% VIS=[23,15,5,50]; %¶ÔÓ¦µÄÄÜ¼û¶È
-IHAZE=[1,2,4,6]; %¶¨ÒåËÄÖÖÆøÈÜ½ºÏû¹âÄ£Ê½£ºÏç´å¡¢Ïç´å¡¢º£Ñó¡¢¶ÔÁ÷²ã
-VIS=[23,5,15,50]; %¶ÔÓ¦µÄÄÜ¼û¶È
+MODEL=[1,2,3,4,5,6]; %MODTRANæä¾›çš„å…­ç§å¤§æ°”å»“çº¿
+% IHAZE=[1,4,5,6]; %å®šä¹‰å››ç§æ°”æº¶èƒ¶æ¶ˆå…‰æ¨¡å¼ï¼šä¹¡æ‘ã€æµ·æ´‹ã€åŸå¸‚ã€å¯¹æµå±‚
+% VIS=[23,15,5,50]; %å¯¹åº”çš„èƒ½è§åº¦
+IHAZE=[1,2,4,6]; %å®šä¹‰å››ç§æ°”æº¶èƒ¶æ¶ˆå…‰æ¨¡å¼ï¼šä¹¡æ‘ã€ä¹¡æ‘ã€æµ·æ´‹ã€å¯¹æµå±‚
+VIS=[23,5,15,50]; %å¯¹åº”çš„èƒ½è§åº¦
 
 RSA=[0,30,60,90,120,150,180];
 SZA=[0,10,20,30,40,50,60,70,80];
-vza=[0,10,20,30,40,50,60]; %Êµ¼Êvza
-% ¼ÆËãMODTRANĞèÒªµÄVZA
+vza=[0,10,20,30,40,50,60]; %å®é™…vza
+% è®¡ç®—MODTRANéœ€è¦çš„VZA
 R = 6371.23; sensorHeight=705;
 VZA=180 - asin(R * sin(deg2rad(vza))/(R + sensorHeight)) * 180/pi;
 
-% ¶ÁÈ¡ËùÓĞµØÀàµÄÃû³Æ
-files=dir('E:\Ñ§Êõ\MATLAB\NSSR\MODTRAN part\brdf_modis_read\3brdf_17lands_annual_aver\*.txt');
+% è¯»å–æ‰€æœ‰åœ°ç±»çš„åç§°
+files=dir('E:\å­¦æœ¯\MATLAB\NSSR\MODTRAN part\brdf_modis_read\3brdf_17lands_annual_aver\*.txt');
 for i=1:length(files)
-    fns{i}=files(i).name;  % fnsÊÇ´øºó×ºµÄÃû³Æ
+    fns{i}=files(i).name;  % fnsæ˜¯å¸¦åç¼€çš„åç§°
     %[filepath,name,ext] = fileparts(namei);
-    nms{i}=fns{i};  % fnsÊÇ´øºó×ºµÄÃû³Æ
-    nms{i}(end-3:end)=[];  % nmsÊÇÉ¾³ıºó×ºµÄbaseÎÄ¼şÃû
+    nms{i}=fns{i};  % fnsæ˜¯å¸¦åç¼€çš„åç§°
+    nms{i}(end-3:end)=[];  % nmsæ˜¯åˆ é™¤åç¼€çš„baseæ–‡ä»¶å
 end
 
-%×¢Òâ£ºÖ®Ç°VZA=[130](¼´Êµ¼Ê¹Û²âÌì¶¥½ÇÎª50¡ãÊ±£¬Ä£Äâ½á¹û×Ü³ö´í£¬Òò´Ë¸ÄÎª48¡ã)
+%æ³¨æ„ï¼šä¹‹å‰VZA=[130](å³å®é™…è§‚æµ‹å¤©é¡¶è§’ä¸º50Â°æ—¶ï¼Œæ¨¡æ‹Ÿç»“æœæ€»å‡ºé”™ï¼Œå› æ­¤æ”¹ä¸º48Â°)
 wl=[0.466;0.553;0.646;0.855;1.243;1.632;2.119];
 suff=repmat([2 1],7,1);
 mkdir('17land_tp5_clr_annual_aver\');
 for k=1:17
-    p3=textread(['E:\Ñ§Êõ\MATLAB\NSSR\MODTRAN part\brdf_modis_read\3brdf_17lands_annual_aver\',fns{k}]);
+    p3=textread(['E:\å­¦æœ¯\MATLAB\NSSR\MODTRAN part\brdf_modis_read\3brdf_17lands_annual_aver\',fns{k}]);
     p3=[wl,p3,suff];
     mkdir(['17land_tp5_clr_annual_aver\',nms{k}]);
     for r=1:length(RSA)
@@ -42,8 +43,8 @@ for k=1:17
                         %% card1
                         %format='(4A1,I1,A1,I4,10I5,1X,I4,F8.3,A7)'
                         fprintf(fid,['TMF ',num2str(MODEL(i)),' ','   2','    2   -1    0    0    0    0    0    0    0    1',' ','   1','   0.000','   BRDF\n']);
-                        %µ¹ÊıµÚÈı¸ö1±íÊ¾Êä³öµÄtp6²»°üº¬´óÆøÀªÏßºÍ¹âÆ×Êı¾İ£¿
-                        % card1A£¬open thrml sct
+                        %å€’æ•°ç¬¬ä¸‰ä¸ª1è¡¨ç¤ºè¾“å‡ºçš„tp6ä¸åŒ…å«å¤§æ°”å»“çº¿å’Œå…‰è°±æ•°æ®ï¼Ÿ
+                        % card1Aï¼Œopen thrml sct
                         %format='(3A1, I3, F4.0,F10.3,2A10,2A1,4(1X,A1),F10.3,A1,F9.3,3F10.3,I10)'
                         fprintf(fid,'fff  8  0.   365.000                    0f f t t       0.000     0.000     0.000     0.000     0.000         0\n');
                         % card1A3, Instrument spectral response function
@@ -54,10 +55,10 @@ for k=1:17
                         fprintf(fid,'  ');
                         fprintf(fid,'%3d',IHAZE(j));
                         fprintf(fid,'    0    0    3');
-                        fprintf(fid,'%5d',0);% ICLD£¬0ÇçÌì£¬1.2.3ÔÆÌìÊ±card2aÒªÉèÖÃ
+                        fprintf(fid,'%5d',0);% ICLDï¼Œ0æ™´å¤©ï¼Œ1.2.3äº‘å¤©æ—¶card2aè¦è®¾ç½®
                         fprintf(fid,'    0');
                         fprintf(fid,'%10.5f',VIS(j));
-                        fprintf(fid,'   0.00000   0.00000   0.00000   0.00200\n');%×îºóÒ»¸ö0.0000ÊÇDEM£¬¿ÉÒÔ½øĞĞ¸Ä±ä
+                        fprintf(fid,'   0.00000   0.00000   0.00000   0.00200\n');%æœ€åä¸€ä¸ª0.0000æ˜¯DEMï¼Œå¯ä»¥è¿›è¡Œæ”¹å˜
                         
                         %% card3
                         %format='(6F10.3, I5, 5X, 2F10.3)'
@@ -72,8 +73,8 @@ for k=1:17
                         fprintf(fid,'     0.000     0.000    10.500     0.000     0.000     0.000\n');
                         
                         %% card4
-                        %   GF-5µÄwl=0.45~2.35¦Ìm
-                        % Êµ¼Ê²ÉÓÃwl=0.4~2.45¦Ìm(°´ÕÕfltµÄ·¶Î§£¬½Ï¿í)
+                        %   GF-5çš„wl=0.45~2.35Î¼m
+                        % å®é™…é‡‡ç”¨wl=0.4~2.45Î¼m(æŒ‰ç…§fltçš„èŒƒå›´ï¼Œè¾ƒå®½)
                         % format=' (4F10.0,2A1,A8,A7,I3,F10.0)'
                         fprintf(fid,'     4081.    25000.        1.        2.RM              T  1        0.\n');
                         % card4A
@@ -81,7 +82,7 @@ for k=1:17
                         % card4B1,4B2
                         fprintf(fid,'Ross-Li\n');
                         fprintf(fid,'7 0.0 90.0\n');
-                        % card4B3,BRDFÄ£ĞÍµÄ²ÎÊı
+                        % card4B3,BRDFæ¨¡å‹çš„å‚æ•°
                         
                         fprintf(fid,[num2str(p3(1,:)),'\n']);
                         fprintf(fid,[num2str(p3(2,:)),'\n']);
@@ -105,7 +106,7 @@ for k=1:17
     end
 end
 
-%% »ñÈ¡tp5list
+%% è·å–tp5list
 for k=1:17
     files=dir(['17land_tp5_clr_annual_aver\',nms{k},'\','*.tp5']);
     for i=1:length(files)
